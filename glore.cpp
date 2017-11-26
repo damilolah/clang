@@ -13,6 +13,7 @@
 #include "clang/Tooling/Tooling.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/CommandLine.h"
+#include "clang/AST/Expr.h"
 
 using namespace std;
 using namespace clang;
@@ -61,28 +62,72 @@ public :
       FS->dump();
   }
 };
+
+
+static bool areSameVariable(const ValueDecl *First, const ValueDecl *Second) {
+  return First && Second && First->getCanonicalDecl() == Second->getCanonicalDecl();
+
+}
+
+
 class CommonPlusLoopCallPrinter : public MatchFinder::MatchCallback {
 public :
   virtual void run(const MatchFinder::MatchResult &Result) {
 
     const VarDecl *IncVar = Result.Nodes.getNodeAs<VarDecl>("incVarName");
-    const VarDecl *CondVar = Result.Nodes.getNodeAs<VarDecl>("condVarName");
-    const VarDecl *InitVar = Result.Nodes.getNodeAs<VarDecl>("initVarName");
+  //  const VarDecl *CondVar = Result.Nodes.getNodeAs<VarDecl>("condVarName");
+  //  const VarDecl *InitVar = Result.Nodes.getNodeAs<VarDecl>("initVarName");
     // if (!areSameVariable(IncVar, CondVar) || !areSameVariable(IncVar, InitVar))
     //   return;
 
     const VarDecl *rValue = Result.Nodes.getNodeAs<VarDecl>("resultValue");
     const VarDecl *beforeValue = Result.Nodes.getNodeAs<VarDecl>("valuebeforePlus"); 
     const BinaryOperator *op = Result.Nodes.getNodeAs<BinaryOperator>("CommonPlus");
-    const Expr * vInformula = Result.Nodes.getNodeAs<Expr>("valueInFormula");
-    const IntegerLiteral *IL = dyn_cast<IntegerLiteral>("lowerBound");
-    double val = IL->getValue().signedRoundToDouble(); 
-    int ival = (int) val;
+  //  const Expr * vInformula = Result.Nodes.getNodeAs<Expr>("valueInFormula");
+   // const FloatingLiteral *IL = dyn_cast<FloatingLiteral>("upperBound");
+   //  double val = IL->getValue().convertToDouble();
+   // cout<<val<<endl; 
+   // int ival = (int) val;
+//    }
+
+    string vIn = "";
+    raw_string_ostream stream(vIn);
+
+    auto* statement = Result.Nodes.getNodeAs<Expr>("valueInFormula");
+    statement->printPretty(stream, NULL, PrintingPolicy(LangOptions()));
+
+    stream.flush();
+
+    //cout<<vIn<<endl;
+
+    string uBound;
+    raw_string_ostream stream2(uBound);
+
+    auto* upBound = Result.Nodes.getNodeAs<Expr>("upperBound");
+    upBound->printPretty(stream2, NULL, PrintingPolicy(LangOptions()));
+    stream2.flush();
+   // cout<<uBound<<endl;
+
+    string lBound;
+    raw_string_ostream stream3(lBound);
+    auto* loBound = Result.Nodes.getNodeAs<IntegerLiteral>("lowerBound");
+    loBound->printPretty(stream3, NULL, PrintingPolicy(LangOptions()));
+    stream3.flush();
 
     if(!areSameVariable(rValue, beforeValue))
-      printf("-------------------different------------------");
+      printf("-------------------different------------------\n");
+
     else {
-      printf("-------------------reduction-------------------");
+      printf("-------------------reduction-------------------\n");
+      cout<<"L"<<endl;
+      cout<<"sum"<<endl;
+      cout<<vIn<<endl;
+      cout<<lBound<<endl;
+      cout<<uBound<<endl;
+      cout<<"="<<endl;
+      cout<<rValue->getNameAsString()<<endl;
+      //cout<<IncVar->getNameAsString()<<endl;
+   //   count<<valueInformula<<endl;
     }
 
 
@@ -139,21 +184,28 @@ private:
           hasOperatorName("<"),
           hasLHS(ignoringParenImpCasts(declRefExpr(
             to(varDecl(hasType(isInteger())).bind("condVarName"))))),
-          hasRHS(expr(hasType(isInteger())).bind("upperBound")))),
+          hasRHS(expr(hasType(isInteger())).bind("upperBound"))))
+  ,
         hasBody(
-          expr(
+          compoundStmt(
+      has(
             binaryOperator(
               hasOperatorName("="),
               hasLHS(ignoringParenImpCasts(declRefExpr(
-                to(varDecl().bind("resultValue"))))),
-              hasRHS(expr(
+                to(varDecl().bind("resultValue"))))) ,
+              hasRHS(
                 binaryOperator(
                   hasOperatorName("+"),
                   hasLHS(ignoringParenImpCasts(declRefExpr(
-                    to(varDecl().bind("valuebeforePlus"))))),
-                  hasRHS(expr(hasType(isInteger())).bind("valueInFormula"))).bind("CommonPlus")))).bind("CommonEqual")
+                    to(varDecl().bind("valuebeforePlus")))))
+     ,
+                  hasRHS(expr(hasType(isInteger())).bind("valueInFormula"))).bind("CommonPlus")
+                  )
+                  ).bind("CommonEqual")
+                  )
             )
-          )).bind("CommonLoop");
+          )
+    ).bind("CommonLoop");
 
   MatchFinder Finder;
 };
