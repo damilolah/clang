@@ -1,16 +1,25 @@
-#include "clang/ASTMatchers/ASTMatchers.h"
+#include <string>
+#include <iostream>
+#include <sstream>
+
+#include "clang/AST/AST.h"
+#include "clang/AST/ASTConsumer.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
-// Declares clang::SyntaxOnlyAction.
+#include "clang/ASTMatchers/ASTMatchers.h"
+#include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendActions.h"
+#include "clang/Rewrite/Core/Rewriter.h"
 #include "clang/Tooling/CommonOptionsParser.h"
 #include "clang/Tooling/Tooling.h"
-// Declares llvm::cl::extrahelp.
+#include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/CommandLine.h"
 
-using namespace clang::tooling;
-using namespace llvm;
+using namespace std;
 using namespace clang;
 using namespace clang::ast_matchers;
+using namespace clang::driver;
+using namespace clang::tooling;
+using namespace llvm;
 
 
 // Apply a custom category to all command-line options so that they are the
@@ -66,15 +75,15 @@ public :
     const VarDecl *beforeValue = Result.Nodes.getNodeAs<VarDecl>("valuebeforePlus"); 
     const BinaryOperator *op = Result.Nodes.getNodeAs<BinaryOperator>("CommonPlus");
     const Expr * vInformula = Result.Nodes.getNodeAs<Expr>("valueInFormula");
-    // const IntegerLiteral *IL = dyn_cast<IntegerLiteral>("lowerBound");
-    // double val = IL->getValue().signedRoundToDouble(); 
-    // int ival = (int) val;
+    const IntegerLiteral *IL = dyn_cast<IntegerLiteral>("lowerBound");
+    double val = IL->getValue().signedRoundToDouble(); 
+    int ival = (int) val;
 
-    // if(!areSameVariable(rValue, beforeValue))
-    //   printf("-------------------different------------------");
-    // else {
-    //   printf("-------------------reduction-------------------");
-    // }
+    if(!areSameVariable(rValue, beforeValue))
+      printf("-------------------different------------------");
+    else {
+      printf("-------------------reduction-------------------");
+    }
 
 
     printf("-------A common plus For Loop-------\n");
