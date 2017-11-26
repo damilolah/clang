@@ -114,7 +114,7 @@ public :
     loBound->printPretty(stream3, NULL, PrintingPolicy(LangOptions()));
     stream3.flush();
 
-    if(!areSameVariable(rValue, beforeValue))
+    if(!areSameVariable(rValue, beforeValue)) {
       printf("-------------------regular------------------\n");
       cout<<"L"<<endl;
       cout<<IncVar->getNameAsString()<<endl;
@@ -123,8 +123,7 @@ public :
       cout<<beforeValue->getNameAsString()<<"+"<<vIn<<endl;
       cout<<"="<<endl;
       cout<<rValue->getNameAsString()<<endl;
-
-    else {
+    } else {
       printf("-------------------reduction-------------------\n");
      // cout<<"L"<<endl;
       cout<<"sum"<<endl;
