@@ -115,15 +115,23 @@ public :
     stream3.flush();
 
     if(!areSameVariable(rValue, beforeValue))
-      printf("-------------------different------------------\n");
+      printf("-------------------regular------------------\n");
+      cout<<"L"<<endl;
+      cout<<IncVar->getNameAsString()<<endl;
+      cout<<lBound<<endl;
+      cout<<uBound<<endl;
+      cout<<beforeValue->getNameAsString()<<"+"<<vIn<<endl;
+      cout<<"="<<endl;
+      cout<<rValue->getNameAsString()<<endl;
 
     else {
       printf("-------------------reduction-------------------\n");
-      cout<<"L"<<endl;
+     // cout<<"L"<<endl;
       cout<<"sum"<<endl;
-      cout<<vIn<<endl;
+      cout<<IncVar->getNameAsString()<<endl;
       cout<<lBound<<endl;
       cout<<uBound<<endl;
+      cout<<vIn<<endl;
       cout<<"="<<endl;
       cout<<rValue->getNameAsString()<<endl;
       //cout<<IncVar->getNameAsString()<<endl;
