@@ -25,7 +25,7 @@ static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 // A help message for this specific tool can be added afterwards.
 static cl::extrahelp MoreHelp("\nMore help text...");
 
-	  
+    
 class ForLoopPrinter : public MatchFinder::MatchCallback {
 public :
   virtual void run(const MatchFinder::MatchResult &Result) {
@@ -54,18 +54,18 @@ public :
 };
 class CommonPlusLoopCallPrinter : public MatchFinder::MatchCallback {
 public :
-  virtual void run(const MatchFinder：：MatchResult &Result) {
+  virtual void run(const MatchFinder::MatchResult &Result) {
 
-    ASTContext *Context = Result.Context;
-    const ForStmt *FS = Result.Nodes.getNodeAs<ForStmt>("CommonLoop");
-    // We do not want to convert header files!
-    if (!FS || !Context->getSourceManager().isWrittenInMainFile(FS->getForLoc()))
-      return;
-    const VarDecl *IncVar = Result.Nodes.getNodeAs<VarDecl>("incVarName");
-    const VarDecl *CondVar = Result.Nodes.getNodeAs<VarDecl>("condVarName");
-    const VarDecl *InitVar = Result.Nodes.getNodeAs<VarDecl>("initVarName");
-    if (!areSameVariable(IncVar, CondVar) || !areSameVariable(IncVar, InitVar))
-      return;
+    // ASTContext *Context = Result.Context;
+    // const ForStmt *FS = Result.Nodes.getNodeAs<ForStmt>("CommonLoop");
+    // // We do not want to convert header files!
+    // if (!FS || !Context->getSourceManager().isWrittenInMainFile(FS->getForLoc()))
+    //   return;
+    // const VarDecl *IncVar = Result.Nodes.getNodeAs<VarDecl>("incVarName");
+    // const VarDecl *CondVar = Result.Nodes.getNodeAs<VarDecl>("condVarName");
+    // const VarDecl *InitVar = Result.Nodes.getNodeAs<VarDecl>("initVarName");
+    // if (!areSameVariable(IncVar, CondVar) || !areSameVariable(IncVar, InitVar))
+    //   return;
 
     printf("-------A common plus For Loop-------\n");
     const BinaryOperator *op = Result.Nodes.getNodeAs<BinaryOperator>("CommonPlus");
@@ -75,7 +75,8 @@ public :
     printf("%d\n",c_value);
     printf("------------Common Plus end------------");
   }
-}
+};
+
 class MyASTConsumer: public ASTConsumer {
 public:
   MyASTConsumer () {
@@ -131,7 +132,7 @@ private:
                   hasOperatorName("+"),
                   hasLHS(ignoringParenImpCasts(declRefExpr(
                     to(varDecl().bind("valuebeforePlus"))))),
-                  hasRHS(expr(hasType(isInteger)).bind(valueInFormula))).bind("CommonPlus")))).bind("CommonEqual")
+                  hasRHS(expr(hasType(isInteger())).bind("valueInFormula"))).bind("CommonPlus")))).bind("CommonEqual")
             )
           )).bind("CommonLoop");
 
@@ -145,7 +146,7 @@ class MyFrontendAction : public ASTFrontendAction {
 public:
   MyFrontendAction() {}
   std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
-						 StringRef file) override {
+             StringRef file) override {
     return llvm::make_unique<MyASTConsumer>();
   }
 };
@@ -154,7 +155,7 @@ public:
 int main(int argc, const char **argv) {
   CommonOptionsParser OptionsParser(argc, argv, MyToolCategory);
   ClangTool Tool(OptionsParser.getCompilations(),
-		 OptionsParser.getSourcePathList());
+     OptionsParser.getSourcePathList());
 
   return Tool.run(newFrontendActionFactory<MyFrontendAction>().get());
 }
