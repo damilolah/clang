@@ -54,32 +54,27 @@ public :
 };
 class CommonPlusLoopCallPrinter : public MatchFinder::MatchCallback {
 public :
-  virtual void run(const MatchFinder：：MatchResult &Result) {
+  virtual void run(const MatchFinder::MatchResult &Result) {
 
-    ASTContext *Context = Result.Context;
-    const ForStmt *FS = Result.Nodes.getNodeAs<ForStmt>("CommonLoop");
-    // We do not want to convert header files!
-    if (!FS || !Context->getSourceManager().isWrittenInMainFile(FS->getForLoc()))
-      return;
     const VarDecl *IncVar = Result.Nodes.getNodeAs<VarDecl>("incVarName");
     const VarDecl *CondVar = Result.Nodes.getNodeAs<VarDecl>("condVarName");
     const VarDecl *InitVar = Result.Nodes.getNodeAs<VarDecl>("initVarName");
-    if (!areSameVariable(IncVar, CondVar) || !areSameVariable(IncVar, InitVar))
-      return;
+    // if (!areSameVariable(IncVar, CondVar) || !areSameVariable(IncVar, InitVar))
+    //   return;
 
     const VarDecl *rValue = Result.Nodes.getNodeAs<VarDecl>("resultValue");
     const VarDecl *beforeValue = Result.Nodes.getNodeAs<VarDecl>("valuebeforePlus"); 
     const BinaryOperator *op = Result.Nodes.getNodeAs<BinaryOperator>("CommonPlus");
     const Expr * vInformula = Result.Nodes.getNodeAs<Expr>("valueInFormula");
-    const IntegerLiteral *IL = dyn_cast<IntegerLiteral>("lowerBound");
-    double val = IL->getValue().signedRoundToDouble(); 
-    int ival = (int) val;
+    // const IntegerLiteral *IL = dyn_cast<IntegerLiteral>("lowerBound");
+    // double val = IL->getValue().signedRoundToDouble(); 
+    // int ival = (int) val;
 
-    if(!areSameVariable(rValue, beforeValue))
-      printf("-------------------different------------------");
-    else {
-      printf("-------------------reduction-------------------");
-    }
+    // if(!areSameVariable(rValue, beforeValue))
+    //   printf("-------------------different------------------");
+    // else {
+    //   printf("-------------------reduction-------------------");
+    // }
 
 
     printf("-------A common plus For Loop-------\n");
@@ -90,7 +85,8 @@ public :
     // printf("%d\n",c_value);
     printf("------------Common Plus end------------");
   }
-}
+};
+
 class MyASTConsumer: public ASTConsumer {
 public:
   MyASTConsumer () {
