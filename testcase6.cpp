@@ -5,8 +5,8 @@ int main(){
 
   int w = 0;
   int z = 0;
-  int x[] = {};
-  int y[][]={{},{}};
+  int x[10] = {};
+  int y[10][10]={{},{}};
   int i = 0;
   int N = 10;
   for(i = 0; i < N; i++){
