@@ -9,6 +9,7 @@ int main(){
   int y[10][10]={{},{}};
   int i = 0;
   int N = 10;
+  int j ;
   for(i = 0; i < N; i++){
    		w = w + x[i];
    		z = w * 1;
