@@ -8,7 +8,7 @@ int main(){
   int NK = 10;
   int M = 10;
   int d[] = {};
-  int x[][] = {{},{}};
+  int x[10][10] = {{},{}};
   int le =15;
   int alpha = 0.5;
   int mu = 1;
