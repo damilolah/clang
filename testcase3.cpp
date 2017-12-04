@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
+ int u(int a, int b, int c, int d){
+    return 0;
+  }
+
 int main(){
   int x = 0;
   int k = 0;
@@ -14,9 +20,7 @@ int main(){
   int px = 0;
   int py = 0;
   int pz = 0;
-  int u(int a, int b, int c, int d){
-    return 0;
-  }
+ 
 
    for(k = 2; k < NK; k++){
 	  z = (k + 1)/(NK + 1);
