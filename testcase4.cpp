@@ -25,15 +25,15 @@ int r = −alpha/mu;
     for (i = 0; i <M; i++){
       S=0;
       for(l = 0; j < D; j++){
-        S = S + x[i][l] ∗ w[l]; 
+        S = S + x[i][l] * w[l]; 
       }
       for (m = 0; m < D; m++){
-        d[m] = d[m] + S ∗ x[i][m];
+        d[m] = d[m] + S * x[i][m];
       } 
       
     }// i loop
     for(ii = 0; ii < D; j++){
-      w[ii] = w[ii] + r ∗ d[ii];
+      w[ii] = w[ii] + r * d[ii];
     }
  }
 
