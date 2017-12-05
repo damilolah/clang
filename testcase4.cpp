@@ -10,11 +10,11 @@ int main(){
   int d[] = {};
   int x[10][10] = {{},{}};
   int le =15;
-  int alpha = 0.5;
+  int alpha = 5;
   int mu = 1;
  
 
-int r = −alpha/mu;
+int r = -alpha/mu;
   for(jj = 0; jj <D; jj++ ){
     w[jj] = 0;
   }
