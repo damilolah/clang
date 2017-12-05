@@ -14,7 +14,7 @@ int main(){
   int mu = 1;
  
 
-int r = -alpha/mu;
+r  = -alpha/mu;
   for(jj = 0; jj <D; jj++ ){
     w[jj] = 0;
   }
