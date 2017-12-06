@@ -4,7 +4,7 @@
 int main(){
 
   int w = 0;
-  int x[10][10] = {{1},{1}};
+  int x[10][10] = {{},{}};
   int i = 0;
   int j = 0;
   int N = 10;
