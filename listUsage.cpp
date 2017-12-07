@@ -31,3 +31,54 @@ int main()
     cout << endl;
     return 0;
 }
+
+
+#include <iostream>
+#include <iostream>   
+#include <list>       // std::cout
+#include <string>   
+
+using namespace std;
+
+
+int main()
+{
+    string str = "x = sin(a[i]+b[j]) + b";  //sythen_ab(i,j);
+    int numPar = 0;
+    int numKuo = 0;
+    size_t loc = str.find("sin");
+    string result = "syntheic_";
+  //size_t loc = str.find("cos");
+  //string result = "cosblalbal_";
+    string subscript = "";
+    bool which = true;
+    int loca = 0;
+    for(int i = loc + 3; i < str.length(); i++) {
+        if(str[i] == ' '||str[i] == '+'){
+            continue;
+        }else if(str[i] == '(') {
+            numPar++;
+        }else if (str[i] == ')'){
+            numPar--;
+            if(numPar == 0)
+            loca = i; 
+            break;
+        }else if(str[i] == '[') {
+            numKuo++;
+            which = false;
+        }else if(str[i] == ']') {
+            numKuo--;
+            if(numKuo == 0)
+            which = true;
+        }else if (which) {
+            result += str[i];
+        }else {
+            subscript += str[i];
+        }
+            
+    }
+    cout<< "result is "<<endl;
+    string answer = str.substr(0,loc) + result +'['+ subscript + ']' + str.substr(loca+1);
+    cout<<answer<<endl;
+}
+
