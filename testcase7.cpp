@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#iclude <cmath>
+
 int main(){
 
   int w = 0;
