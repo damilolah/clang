@@ -14,7 +14,7 @@ int main(){
   int j ;
   for(i = 0; i < N; i++){
    		w = w + x[i];
-   		z = sin(x[i]+b[j]) + a 
+   		z = sin(x[i]+b[j]) + a;
    		for(j = 0; j < N; j++){
   		w = w + y[i][j];
   	}
