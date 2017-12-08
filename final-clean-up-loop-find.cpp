@@ -333,7 +333,7 @@ public :
                       //cout<<checkRes<<endl;
 
                     if(checkProd==1){
-                       printf("-------------------product-------------------\n");
+                      // printf("-------------------product-------------------\n");
                         cout<<"\u03A0" + InitVar->getNameAsString() +"∫"+lBound+","+uBound+"∫" <<endl;
                         /*cout<<InitVar->getNameAsString()<<endl;
                         cout<<lBound<<endl;
