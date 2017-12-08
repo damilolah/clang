@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#iclude <cmath>
+#include <cmath>
 
 int main(){
 
